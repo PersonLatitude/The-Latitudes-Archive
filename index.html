@@ -4,36 +4,47 @@
 <head>
     <title>THE LATITUDES ARCHIVE</title>
     <style>
-        body { background: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; }
-        .monitor { border: 5px double #00ff41; display: inline-block; padding: 20px; background: #000; margin-top: 50px; box-shadow: 0 0 15px #00ff41; }
-        img { width: 640px; height: 480px; image-rendering: pixelated; border: 1px solid #00ff41; }
-        .controls { margin-top: 20px; }
-        input { background: #000; color: #00ff41; border: 1px solid #00ff41; padding: 5px; width: 80px; }
-        button { background: #00ff41; color: #000; border: none; padding: 5px 15px; cursor: pointer; font-weight: bold; }
-        .data { text-align: left; font-size: 0.8em; margin-top: 15px; border-top: 1px solid #333; }
+        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
+        #crt { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a1a1a 0%, #000 100%); }
+        .screen { border: 10px solid #222; padding: 20px; background: #000; box-shadow: 0 0 20px rgba(0,255,65,0.2); position: relative; }
+        .screen::before { content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none; }
+        img { width: 640px; height: 480px; image-rendering: pixelated; border: 1px solid #00ff41; filter: contrast(1.2) brightness(0.8); }
+        .ui { margin-top: 15px; }
+        input { background: #000; color: #00ff41; border: 1px solid #00ff41; padding: 5px; width: 100px; font-family: inherit; }
+        button { background: #00ff41; color: #000; border: none; padding: 5px 15px; cursor: pointer; font-family: inherit; font-weight: bold; }
+        .overlay { position: absolute; top: 30px; left: 30px; font-size: 12px; text-shadow: 0 0 5px #00ff41; }
     </style>
 </head>
 <body>
-    <div class="monitor">
-        <h2>LATITUDE DATA VIEWER</h2>
-        <img id="view" src="latitudes/LAT_1.jpg">
-        <div class="controls">
-            COORDINATE: <input type="number" id="latNum" value="1">
-            <button onclick="jump()">JUMP</button>
+    <div id="crt">
+        <div class="screen">
+            <div class="overlay">REC [●] <br>LAT: <span id="latDisplay">001</span><br>ALT: 0.00m</div>
+            <img id="monitor" src="latitudes/LAT_1.jpg">
+            <div class="ui">
+                GO TO LATITUDE: <input type="number" id="input" value="1" min="1" max="10">
+                <button onclick="jump()">JUMP</button>
+                <button onclick="randomize()">RANDOM</button>
+            </div>
         </div>
-        <div class="data">
-            <p>LOCATION: <span id="loc">SEC_001</span></p>
-            <p>INTERFERENCE: <span id="inf">NONE</span></p>
-        </div>
+        <p style="font-size: 10px; opacity: 0.5;">DEPT. OF PERSISTENT GEOGRAPHY - SECURE TERMINAL</p>
     </div>
+
     <script>
         function jump() {
-            var n = document.getElementById('latNum').value;
-            document.getElementById('view').src = 'latitudes/LAT_' + n + '.jpg';
-            document.getElementById('loc').innerText = 'SEC_' + n.padStart(3, '0');
-            document.getElementById('inf').innerText = (Math.random() * 100).toFixed(2) + '%';
+            const val = document.getElementById('input').value;
+            const img = document.getElementById('monitor');
+            img.style.opacity = 0.5; // Flicker effect
+            setTimeout(() => {
+                img.src = 'latitudes/LAT_' + val + '.jpg';
+                document.getElementById('latDisplay').innerText = val.padStart(3, '0');
+                img.style.opacity = 1;
+            }, 100);
+        }
+        function randomize() {
+            const r = Math.floor(Math.random() * 10) + 1;
+            document.getElementById('input').value = r;
+            jump();
         }
     </script>
 </body>
 </html>
-    
