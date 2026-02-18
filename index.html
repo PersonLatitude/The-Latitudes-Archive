@@ -1,11 +1,39 @@
 
-    <!DOCTYPE html><html><body bgcolor="#FFFFFF">
-    <table width="100%"><tr><td><font size="6"><b>The Latitudes Archive</b></font></td></tr></table>
-    <hr size="1">
-    <table width="100%" border="0"><tr><td width="150" valign="top" bgcolor="#F0F0F0">
-    <font size="2"><b>Navigation</b><br>Main Page<br>Random Latitude</font></td>
-    <td valign="top"><h2>Latitude 000,001</h2>
-    <table border="1" align="right"><tr><td><img src="latitudes/LAT_1.jpg" width="320" height="240"><br><font size="1">LAT_1: Primary Visual</font></td></tr></table>
-    <p><b>Latitude 000,001</b> is the baseline coordinate of the persistent infrastructure.</p>
-    </td></tr></table></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>THE LATITUDES ARCHIVE</title>
+    <style>
+        body { background: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; }
+        .monitor { border: 5px double #00ff41; display: inline-block; padding: 20px; background: #000; margin-top: 50px; box-shadow: 0 0 15px #00ff41; }
+        img { width: 640px; height: 480px; image-rendering: pixelated; border: 1px solid #00ff41; }
+        .controls { margin-top: 20px; }
+        input { background: #000; color: #00ff41; border: 1px solid #00ff41; padding: 5px; width: 80px; }
+        button { background: #00ff41; color: #000; border: none; padding: 5px 15px; cursor: pointer; font-weight: bold; }
+        .data { text-align: left; font-size: 0.8em; margin-top: 15px; border-top: 1px solid #333; }
+    </style>
+</head>
+<body>
+    <div class="monitor">
+        <h2>LATITUDE DATA VIEWER</h2>
+        <img id="view" src="latitudes/LAT_1.jpg">
+        <div class="controls">
+            COORDINATE: <input type="number" id="latNum" value="1">
+            <button onclick="jump()">JUMP</button>
+        </div>
+        <div class="data">
+            <p>LOCATION: <span id="loc">SEC_001</span></p>
+            <p>INTERFERENCE: <span id="inf">NONE</span></p>
+        </div>
+    </div>
+    <script>
+        function jump() {
+            var n = document.getElementById('latNum').value;
+            document.getElementById('view').src = 'latitudes/LAT_' + n + '.jpg';
+            document.getElementById('loc').innerText = 'SEC_' + n.padStart(3, '0');
+            document.getElementById('inf').innerText = (Math.random() * 100).toFixed(2) + '%';
+        }
+    </script>
+</body>
+</html>
     
